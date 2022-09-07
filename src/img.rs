@@ -87,12 +87,12 @@ impl Image {
 
         let c = density / 8;
         let mut data: Vec<u8> = vec![0; (self.width * c) as usize];
-        println!(">>> num={}, density={}, n={}, y={}, c={}, data.len()={}",
-                 num, density, n, y, c, data.len());
+        // println!(">>> num={}, density={}, n={}, y={}, c={}, data.len()={}",
+        //          num, density, n, y, c, data.len());
         for x in 0..self.width {
             for b in 0..density {
                 let i = x * c + (b >> 3);
-                println!("x={}, b={}, i={}, b>>8={}", x, b, i, b>>3);
+                // println!("x={}, b={}, i={}, b>>8={}", x, b, i, b>>3);
                 let l = y * density + b;
                 if l < self.height && !self.is_blank_pixel(x, l) {
                     data[i as usize] += 0x80 >> (b & 0x07);

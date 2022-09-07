@@ -30,6 +30,7 @@ impl<W: io::Write> Printer<W> {
     }
 
     fn write(&mut self, buf: &[u8]) -> io::Result<usize> {
+        println!("{:?}", buf);
         self.writer.write(buf)
     }
 
@@ -393,7 +394,7 @@ impl<W: io::Write> Printer<W> {
             n_bytes += self.write(header)?;
             n_bytes += self.write_u16le((line.len() / n as usize) as u16)?;
             n_bytes += self.write(line.as_ref())?;
-            n_bytes += self.feed(2)?;
+            n_bytes += self.feed(1)?;
         }
         Ok(n_bytes)
     }
