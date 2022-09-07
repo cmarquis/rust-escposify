@@ -392,7 +392,8 @@ impl<W: io::Write> Printer<W> {
         for line in image.bitimage_lines(n * 8) {
             n_bytes += self.write(header)?;
             n_bytes += self.write_u16le((line.len() / n as usize) as u16)?;
-            n_bytes += self.write(line.as_ref() + "\n")?;
+            n_bytes += self.write(line.as_ref())?;
+            n_bytes += self.write("\n".as_bytes())?;
         }
         Ok(n_bytes)
     }
