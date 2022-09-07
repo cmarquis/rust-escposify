@@ -393,9 +393,8 @@ impl<W: io::Write> Printer<W> {
             n_bytes += self.write(header)?;
             n_bytes += self.write_u16le((line.len() / n as usize) as u16)?;
             n_bytes += self.write(line.as_ref())?;
-            n_bytes += self.feed(1)?;
+            n_bytes += self.feed(2)?;
         }
-        n_bytes += self.feed(10)?;
         Ok(n_bytes)
     }
 
