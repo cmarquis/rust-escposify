@@ -99,7 +99,7 @@ impl<W: io::Write> Printer<W> {
         self.line_space(n).map(|_| self)
     }
     pub fn line_space(&mut self, n: i32) -> io::Result<usize> {
-        if n >= 0 {
+        if n > 0 {
             Ok(self.write(consts::LS_SET)? + self.write_u8(n as u8)?)
         } else {
             self.write(consts::LS_DEFAULT)

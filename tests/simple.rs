@@ -1,34 +1,35 @@
 extern crate tempfile;
 
 extern crate escposify;
+extern crate image;
 
-use escposify::device::File;
+use escposify::device::{self};
+use escposify::img::Image;
 use escposify::printer::Printer;
-use tempfile::NamedTempFileOptions;
+use image::{ImageBuffer, DynamicImage};
 
 #[test]
 fn simple() {
-    let tempf = NamedTempFileOptions::new().create().unwrap();
+    let pn = device::Network::new("10.10.10.65", 9100).expect("oh no");
+    let mut printer = Printer::new(pn, None, None);
 
-    let file = File::from(tempf);
-    let mut printer = Printer::new(file, None, None);
+    let img = ImageBuffer::from_fn(32, 32, |x, _| {
+        if x % 2 == 0 {
+            image::Rgb([0, 0, 0])
+        } else {
+            image::Rgb([0xFF, 0xFF, 0xFF])
+        }
+    });
+    let image = Image::from(DynamicImage::ImageRgb8(img));
 
     let _ = printer
-        .chain_font("C")
+        .chain_text("hi")
         .unwrap()
-        .chain_align("lt")
-        .unwrap()
-        .chain_style("bu")
-        .unwrap()
-        .chain_size(0, 0)
-        .unwrap()
-        .chain_text("The quick brown fox jumps over the lazy dog")
-        .unwrap()
-        .chain_text("敏捷的棕色狐狸跳过懒狗")
-        .unwrap()
-        .chain_barcode("12345678", "EAN8", "", "", 0, 0)
+        .chain_bit_image(&image, None)
         .unwrap()
         .chain_feed(1)
+        .unwrap()
+        .chain_text("ho")
         .unwrap()
         .chain_cut(false)
         .unwrap()
