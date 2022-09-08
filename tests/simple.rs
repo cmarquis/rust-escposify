@@ -13,7 +13,7 @@ fn simple() {
     let pn = device::Network::new("10.10.10.65", 9100).expect("oh no");
     let mut printer = Printer::new(pn, None, None);
 
-    let img = ImageBuffer::from_fn(32, 32, |x, _| {
+    let img = ImageBuffer::from_fn(256, 256, |x, _| {
         if x % 2 == 0 {
             image::Rgb([0, 0, 0])
         } else {

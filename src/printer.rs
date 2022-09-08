@@ -389,13 +389,14 @@ impl<W: io::Write> Printer<W> {
             3
         };
         let mut n_bytes = 0;
-        n_bytes += self.line_space(0)?;
+        n_bytes += self.line_space(1)?;
         for line in image.bitimage_lines(n * 8) {
             n_bytes += self.write(header)?;
             n_bytes += self.write_u16le((line.len() / n as usize) as u16)?;
             n_bytes += self.write(line.as_ref())?;
             n_bytes += self.feed(1)?;
         }
+        n_bytes += self.line_space(0)?;
         Ok(n_bytes)
     }
 
