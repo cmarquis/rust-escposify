@@ -30,7 +30,6 @@ impl<W: io::Write> Printer<W> {
     }
 
     fn write(&mut self, buf: &[u8]) -> io::Result<usize> {
-        println!("{:?}", buf);
         self.writer.write(buf)
     }
 
